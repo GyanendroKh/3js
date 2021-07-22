@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {View, TouchableWithoutFeedback, Text} from 'react-native';
+import {View} from 'react-native';
 
 import {GLView} from 'expo-gl';
 import {Renderer} from 'expo-three';
-import {TweenMax} from 'gsap';
 
 import {
   AmbientLight,
@@ -13,9 +12,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
-  PointLight,
   Scene,
-  SpotLight,
 } from 'three';
 
 export default function LoadThreeDModel() {
@@ -25,16 +22,6 @@ export default function LoadThreeDModel() {
   let cameraInitialPositionX = 0;
   let cameraInitialPositionY = 2;
   let cameraInitialPositionZ = 5;
-
-  function move(distance) {
-    TweenMax.to(sphere.position, 0.2, {
-      z: sphere.position.z + distance,
-    });
-
-    TweenMax.to(camera.position, 0.2, {
-      z: camera.position.z + distance,
-    });
-  }
 
   return (
     <View style={{flex: 1}}>
@@ -77,32 +64,8 @@ export default function LoadThreeDModel() {
             gl.endFrameEXP();
           };
           render();
-        }}>
-        <View>
-          <TouchableWithoutFeedback onPressIn={() => move(-0.2)}>
-            <Text
-              style={{
-                fontSize: 36,
-                MozUserSelect: 'none',
-                WebkitUserSelect: 'none',
-                msUserSelect: 'none',
-              }}>
-              UP
-            </Text>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPressIn={() => move(0.2)}>
-            <Text
-              style={{
-                fontSize: 36,
-                MozUserSelect: 'none',
-                WebkitUserSelect: 'none',
-                msUserSelect: 'none',
-              }}>
-              DOWN
-            </Text>
-          </TouchableWithoutFeedback>
-        </View>
-      </GLView>
+        }}
+      />
     </View>
   );
 }
