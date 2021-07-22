@@ -2,13 +2,12 @@ import * as React from 'react';
 import {View} from 'react-native';
 
 import {GLView} from 'expo-gl';
-import {Renderer} from 'expo-three';
+import {Renderer, loadObjAsync} from 'expo-three';
 
 import {
   AmbientLight,
   SphereGeometry,
   Fog,
-  GridHelper,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
@@ -39,14 +38,12 @@ export default function LoadThreeDModel() {
           // Scene declaration, add a fog, and a grid helper to see axes dimensions
           const scene = new Scene();
           scene.fog = new Fog('#3A96C4', 1, 10000);
-          scene.add(new GridHelper(10, 10));
 
           // Add all necessary lights
           const ambientLight = new AmbientLight(0x101010);
           scene.add(ambientLight);
 
           // Add sphere object instance to our scene
-          scene.add(sphere);
 
           // Set camera position and look to sphere
           camera.position.set(
@@ -56,6 +53,14 @@ export default function LoadThreeDModel() {
           );
 
           camera.lookAt(sphere.position);
+
+          loadObjAsync({
+            asset: require('./cube.obj'),
+          })
+            .then(c => {
+              scene.add(c);
+            })
+            .catch(console.error);
 
           // Render function
           const render = () => {
